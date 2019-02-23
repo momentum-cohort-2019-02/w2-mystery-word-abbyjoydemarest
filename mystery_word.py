@@ -28,6 +28,7 @@ def get_user_level_choice():
    #check to see if what they gave us and determine if it is 'Easy' 'Normal' or 'Hard
    while True:
       if user_choice == 'easy' or user_choice == 'normal' or user_choice == 'hard':
+      
          return user_choice
 
 #select the random word from the list correlating to that level
@@ -43,6 +44,7 @@ def select_mystery_word(word_lists):
    elif user_choice == 'hard':
       mystery_word = random.choice(hard_words)
    return mystery_word
+   print([mystery_word])
 #select a random word from the list and make that the mystery_word
 
 #show them the length of their mystery word.
@@ -50,17 +52,38 @@ def select_mystery_word(word_lists):
 #check to see if the guess is a letter
 def check_if_guess_is_letter(mystery_word):
    """Given the guess, see if it is a letter. If it is a letter return the letter, if is it not a letter ask them the question again """
-   mystery_word = ['c', 'a', 't',]
-   #guesses = []
+   mystery_word = list(mystery_word)
+   print(mystery_word)
+   guesses = []
    correct_guess = []
+   attempts = 0
+   #[letter if letter in guess else "_" for letter in mystery_word]
    while correct_guess < mystery_word:
       guess = input("Please guess a letter that you think might be in this word: ")
+      #breakpoint()
+      guesses.append(guess)
       valid_letter = string.ascii_letters
-      if guess in (valid_letter and mystery_word):
-         correct_guess.append(guess)
-         print("That letter is in the mystery word!")
+      if guess in valid_letter :
+         guesses.append(guess)
+         attempts += 1
+         print(mystery_word)
+         #print(correct_guess)
+         print("That is a letter!")
+         continue
       else:
-         print("That letter is not in the mystery word")
+         #print(guesses)
+         print("That letter is not a letter")
+         continue
+
+      if guess in mystery_word:
+         correct_guess.append(guess)
+         print("that letter is in the mystery word")
+         continue
+      else:
+         print("that letter is not in the mystery word")
+         continue
+
+
 
          
    
