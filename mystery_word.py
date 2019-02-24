@@ -23,13 +23,26 @@ def create_list_for_level(all_words):
 
 #get the user to input their level choice
 def get_user_level_choice():
-   print("Hello! We are going to play a game. \nYou are going to try to figure out the mystery word that I have chosen. \nFirst, pleaese select from the following modes: \n     'Easy' = words 4 to 6 letters in length \n     'Normal' = words 6 to 8 letters in length \n     'Hard' = words 8+ letters in length")
-   user_choice = input("Type the name of your choice of modes: ")
-   #check to see if what they gave us and determine if it is 'Easy' 'Normal' or 'Hard
-   while True:
-      if user_choice == 'easy' or user_choice == 'normal' or user_choice == 'hard':
-      
+   choice = True
+   while choice:
+      print("Hello! We are going to play a game. \nYou are going to try to figure out the mystery word that I have chosen. \nFirst, pleaese select from the following modes: \n     'Easy' = words 4 to 6 letters in length \n     'Normal' = words 6 to 8 letters in length \n     'Hard' = words 8+ letters in length")
+      user_choice = input("Type the name of your choice of modes: 'easy' , 'normal', or 'hard': ")
+      #check to see if what they gave us and determine if it is 'Easy' 'Normal' or 'Hard
+      #valid_letter = string.ascii_letters
+      #levels = ['easy', 'normal', 'hard',]
+      #choice = True
+      #while choice:
+      if user_choice == 'easy': 
          return user_choice
+      elif user_choice == 'normal':
+         return user_choice
+      elif user_choice == 'hard':
+         print("yess!!")
+         return user_choice
+      else:
+         print("noo!!")
+
+
 
 #select the random word from the list correlating to that level
 def select_mystery_word(word_lists):
@@ -44,7 +57,7 @@ def select_mystery_word(word_lists):
    elif user_choice == 'hard':
       mystery_word = random.choice(hard_words)
    return mystery_word
-   print([mystery_word])
+   #([mystery_word])
 #select a random word from the list and make that the mystery_word
 
 #show them the length of their mystery word.
@@ -52,13 +65,20 @@ def select_mystery_word(word_lists):
 #check to see if the guess is a letter
 def check_if_guess_is_letter(mystery_word):
    """Given the guess, see if it is a letter. If it is a letter return the letter, if is it not a letter ask them the question again """
+   mystery_word = mystery_word.casefold
    mystery_word = list(mystery_word)
-   print(mystery_word)
+   display_word = []
    guesses = []
    correct_guess = []
    attempts = 0
+   for letter in mystery_word:
+      if letter not in guesses:
+         display_word.append("_")
+      if letter in guesses:
+         letter
+   print(str(mystery_word)) 
    #[letter if letter in guess else "_" for letter in mystery_word]
-   while correct_guess < mystery_word:
+   while correct_guess < display_word:
       guess = input("Please guess a letter that you think might be in this word: ")
       #breakpoint()
       guesses.append(guess)
@@ -69,19 +89,19 @@ def check_if_guess_is_letter(mystery_word):
          print(mystery_word)
          #print(correct_guess)
          print("That is a letter!")
-         continue
+         print(f"You have had {attempts} attempts.")
+         if guess in mystery_word:
+            correct_guess.append(guess)
+            print("that letter is in the mystery word")
+         else:
+            print("that letter is not in the mystery word")
+            continue
       else:
          #print(guesses)
-         print("That letter is not a letter")
+         print("That is not a letter")
          continue
+   return print(f"you solved it!! The mystery word was {str(mystery_word)}")
 
-      if guess in mystery_word:
-         correct_guess.append(guess)
-         print("that letter is in the mystery word")
-         continue
-      else:
-         print("that letter is not in the mystery word")
-         continue
 
 
 
