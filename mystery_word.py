@@ -16,11 +16,11 @@ def create_list_for_level(all_words):
    hard_words = []
    for word in all_words:
       if len(word) >= 4 and len(word) <= 6:
-         easy_words.append(word)
+         easy_words.append(word.casefold())
       elif len(word) >= 6 and len(word) <= 8:
-         normal_words.append(word)
+         normal_words.append(word.casefold())
       elif len(word) >= 8:
-         hard_words.append(word)
+         hard_words.append(word.casefold())
    return [easy_words, normal_words, hard_words]
 
 # get the user to input their level choice
@@ -30,8 +30,7 @@ def get_user_level_choice():
    choice = True
    while choice:
       print("Hello! We are going to play a game. \nYou are going to try to figure out the mystery word that I have chosen. \nFirst, pleaese select from the following modes: \n     'Easy' = words 4 to 6 letters in length \n     'Normal' = words 6 to 8 letters in length \n     'Hard' = words 8+ letters in length")
-      user_choice = input(
-          "Type the name of your choice of modes: 'easy' , 'normal', or 'hard': ")
+      user_choice = input("Type the name of your choice of modes: 'easy' , 'normal', or 'hard': ")
       # check to see if what they gave us and determine if it is 'Easy' 'Normal' or 'Hard
       # valid_letter = string.ascii_letters
       # levels = ['easy', 'normal', 'hard',]
