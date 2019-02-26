@@ -28,10 +28,9 @@ def create_list_for_level(all_words):
 # get the user to input their level choice
 
 
-def get_user_level_choice():
+def get_user_level_choice(user_choice):
     choice = True
     while choice:
-
         # check to see if what they gave us and determine if it is 'Easy' 'Normal' or 'Hard
         # valid_letter = string.ascii_letters
         # levels = ['easy', 'normal', 'hard',]
@@ -52,7 +51,7 @@ def select_mystery_word(word_lists, user_choice):
     easy_words = word_lists[0]
     normal_words = word_lists[1]
     hard_words = word_lists[2]
-    user_choice = get_user_level_choice()
+    user_choice = get_user_level_choice(user_choice)
     if user_choice == 'easy':
         mystery_word = random.choice(easy_words)
     elif user_choice == 'normal':
@@ -70,10 +69,10 @@ def is_guess_a_letter(user_guess):
     return len(user_guess) == 1 and user_guess.isalpha()
 
 
-def get_letter_guess_from_user():
+def get_letter_guess_from_user(user_guess):
    """Given the user's input of 'guess' continue to ask them for a guess until the guess is a letter in the English alphabet"""
     # ask for the guess, and lower case it.
-   user_guess = input("""Guess a letter in the English alphabet that you think is in the mystery word: """).casefold()
+
     # if the requirements for a guess are not met then ask them for a guess again __until__ the requirements are met.
     # Since it is until we will do a while loop, so while it does not meet the requirements that were predetermined.
    while not is_guess_a_letter(user_guess):
@@ -85,22 +84,22 @@ def get_letter_guess_from_user():
     # once we have received a guess that meets the requirements return the guess
    return user_guess
 
-def get_letters_guessed(user_guess, mystery_word):
+def get_letters_guessed(user_guess, mystery_word,):
    letters_guessed = []
    attempts = 8
    if user_guess in letters_guessed:
       print("You have already guessed that letter.")
       print(get_word_to_display(mystery_word, letters_guessed))
    elif user_guess in mystery_word:
-      print("You guessed a correct letter.")
       letters_guessed.append(user_guess)
-      print(get_word_to_display(mystery_word, letters_guessed))
+      print("You guessed a correct letter.")
+      print(f"You got this {get_word_to_display(mystery_word, letters_guessed)}")
    else:
       letters_guessed.append(user_guess)
-      print(get_word_to_display(mystery_word, letters_guessed))
       attempts -= 1
-      print(f"""Sad day :( That letter was not in the mystery word.
+      print(f"""Bummer :( That letter was not in the mystery word.
                You have {attempts} attempts left. """)
+      print(get_word_to_display(mystery_word, letters_guessed))
    return letters_guessed   
 
 #this just needs to be show the word
@@ -119,6 +118,8 @@ def get_word_to_display(word, letters_to_show,):
 
 def determine_if_mystery_word_guessed(mystery_word, letters_guessed):
    """Given the mystery word and the letters guessed correctly return true if all letters in the mystery word have been guessed. """
+   #breakpoint()
+
    for letter in mystery_word:
       if letter not in letters_guessed:
          print("This is not finished.")
@@ -130,38 +131,30 @@ def determine_if_mystery_word_guessed(mystery_word, letters_guessed):
 def game_is_over(mystery_word, letters_guessed, attempts):
    return determine_if_mystery_word_guessed(mystery_word, letters_guessed) or attempts == 0
 
-def play_game(user_choice):
-   """ Given all the functions in this __main__ continue to go through the functions until attempts > 8."""
-   attempts = 8
-   while attempts != 8:
-      all_words = add_file('words.txt')
-      word_lists = create_list_for_level(all_words)
-      user_choice = get_user_level_choice()
-      mystery_word = select_mystery_word(word_lists, user_choice)
-      user_guess = get_letter_guess_from_user()
-      letters_guessed = get_letters_guessed(user_guess, mystery_word)
-      get_word_to_display(mystery_word, letters_guessed)
-      determine_if_mystery_word_guessed(mystery_word,letters_guessed)
-      game_is_over(mystery_word, letters_guessed, attempts)
-      if determine_if_mystery_word_guessed(mystery_word, letters_guessed):
-         return print(f"Great news... You  won!!! The word was {get_letters_guessed(user_guess, mystery_word)}")
-      else: 
-         return print(f"Sad day... You did not win. The word was {get_letters_guessed(user_guess, mystery_word)}")
-
-
-
-
-
 
 if __name__ == "__main__":
    print("""
    Hello! We are going to play a game. \nYou are going to try to figure out the mystery word that I have chosen. \nFirst, pleaese select from the following modes: \n     'Easy' = words 4 to 6 letters in length \n     'Normal' = words 6 to 8 letters in length \n     'Hard' = words 8+ letters in length
       """)
 
-   user_choice = input(
-      """Type the name of your choice of modes: 'easy' , 'normal', or 'hard': """)
-
-   print(play_game(user_choice))
+   user_choice = input("Type the name of your choice of modes: 'easy' , 'normal', or 'hard': ")
+   user_choice = get_user_level_choice(user_choice)
+   all_words = add_file('words.txt')
+   word_lists = create_list_for_level(all_words)
+   mystery_word = select_mystery_word(word_lists, user_choice)
+   user_guess = input("""Guess a letter in the English alphabet that you think is in the mystery word: """).casefold()
+   attempts = 8
+   user_guess = get_letter_guess_from_user(user_guess)
+   letters_guessed = get_letters_guessed(user_guess, mystery_word)
+   while attempts > 0 and attempts < 8:
+      determine_if_mystery_word_guessed(mystery_word,letters_guessed)
+      get_word_to_display(mystery_word, letters_guessed)
+      game_is_over(mystery_word, letters_guessed, attempts)
+   if determine_if_mystery_word_guessed(mystery_word,letters_guessed):
+      print(f"from __main__{get_word_to_display(mystery_word, letters_guessed)}")
+      print(f"Great news... You  won!!! The word was {mystery_word.upper()}")
+   else: 
+      print(f"Sad day... You did not win. The word was {mystery_word.upper()}")
 
    #mystery_word = select_mystery_word(create_list_for_level(add_file()))
   # user_guess = get_letter_guess_from_user()
