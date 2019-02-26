@@ -35,7 +35,7 @@ def select_mystery_word(word_lists, user_choice):
       mystery_word = random.choice(normal_words)
    if user_choice == 'hard':
       mystery_word = random.choice(hard_words)
-   print(mystery_word)
+   #print(mystery_word)
    return mystery_word
 
 def is_guess_a_letter(user_guess): 
@@ -47,15 +47,15 @@ def is_guess_a_letter(user_guess):
 def get_letter_guess_from_user():
    """Given the user's input of 'guess' continue to ask them for a guess until the guess is a letter in the English alphabet"""
     # ask for the guess, and lower case it.
-   user_guess = input("""Guess a letter in the English alphabet that you think is in the mystery word: """).casefold()
+   user_guess = input("""Guess a letter that you think is in the mystery word: """).casefold()
     # if the requirements for a guess are not met then ask them for a guess again __until__ the requirements are met.
     # Since it is until we will do a while loop, so while it does not meet the requirements that were predetermined.
    while not is_guess_a_letter(user_guess):
         # tell them it does not meet the requirement of being a letter
-        print("That was not a letter.")
+        print("Oh yikes! That was not a letter, silly!.")
         # ask them for another guess
         user_guess = input(
-            "Guess a letter in the English alphabet that you think is in the mystery word: ").casefold()
+            "Guess a letter that you think is in the mystery word: ").casefold()
     # once we have received a guess that meets the requirements return the guess
    return user_guess
 
@@ -78,21 +78,33 @@ def determine_if_mystery_word_guessed(mystery_word, letters_guessed):
    #breakpoint()
    for letter in mystery_word.lower():
       if letter not in letters_guessed:
-         print("This is not finished.")
+         #print("This is not finished.")
          return False
    return True
 
 def game_is_over(mystery_word, letters_guessed, attempts):
    return determine_if_mystery_word_guessed(mystery_word, letters_guessed) or attempts == 0
 
+def play_game():
+   """ask the player if they would like to play again, if they do then start the game again, if they dont then end the game"""
+   user_play_response = input("Would you like to play? yes or no: ")
+   if user_play_response == 'yes':
+      print("""Great... you are going down this time!
+      ... Well, after I figure out how to get that while loop set up. 
+      For now, you can run the program again :)
+      good luck!!""")
+   if user_play_response == 'no':
+      return "Thank you have a nice life!"
+
+
 if __name__ == "__main__":
    print("""
    Hello! We are going to play a game. \nYou are going to try to figure out the mystery word that I have chosen. \nFirst, pleaese select from the following modes: \n     'Easy' = words 4 to 6 letters in length \n     'Normal' = words 6 to 8 letters in length \n     'Hard' = words 8+ letters in length
-      """)
+   """)
    user_choice = None
    while user_choice not in ['easy', 'normal', 'hard']:
       user_choice = input("Type the name of your choice of modes: 'easy' , 'normal', or 'hard': ")
-      print(f"You chose {user_choice}")
+      print(f"You chose {user_choice} mode. Let us begin. May the odds be ever in your favor.")
    
    all_words = add_file('words.txt')
    word_lists = create_list_for_level(all_words)
@@ -104,17 +116,18 @@ if __name__ == "__main__":
       print(get_word_to_display(mystery_word, letters_guessed))
       letter_guessed = get_letter_guess_from_user()
       if letter_guessed in letters_guessed:
-         print("You have already guessed that letter.")
+         print("Nice try, but you already guessed that letter.")
       elif letter_guessed in mystery_word:
-         print("Yay! You guessed a correct letter.")
+         print("Wooo! You are so smart! You guessed a correct letter!!")
          letters_guessed.append(letter_guessed)
       else:
          letters_guessed.append(letter_guessed)
          attempts -= 1
-         print(f"Aw Shucks! You have {attempts} attempts left.")
+         print(f"Aw Shucks, that wasn't right. \n That is okay, you still have {attempts} attempts left.")
 
    if determine_if_mystery_word_guessed(mystery_word,letters_guessed):
       print(get_word_to_display(mystery_word, letters_guessed))
-      print(f"Great news... You  won!!! The word was {mystery_word.upper()}")
+      print(f"Great news... You are a genius!! \n You  won!!! The word was {mystery_word.upper()}")
    else: 
-      print(f"Sad day... You did not win. The word was {mystery_word.upper()}")
+      print(f"Sad day... You did not win. \n The word was {mystery_word.upper()}. \n Better Luck next time!")
+   play_game()
